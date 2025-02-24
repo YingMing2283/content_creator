@@ -17,7 +17,7 @@ def main():
     st.sidebar.header("About")
     st.sidebar.markdown("""
     This app uses OpenAI's GPT-3.5 Turbo to generate creative marketing content tailored to your needs. 
-    Choose the field, tone, length, and whether to include emojis, and get your content in seconds!
+    Choose the field, tone, length, language, and whether to include emojis, and get your content in seconds!
     """)
 
     # User inputs
@@ -40,6 +40,12 @@ def main():
     tone = st.selectbox(
         "Select Tone",
         ["Formal", "Joyful", "Professional", "Casual", "Inspirational", "Humorous", "Persuasive"]
+    )
+
+    # Language selection
+    language = st.selectbox(
+        "Select Language",
+        ["English", "Chinese", "Malay"]
     )
 
     # Content length selection
@@ -68,6 +74,7 @@ def main():
                         f"The product or content is: {product_details}. "
                         f"The tone should be {tone}. "
                         f"The content should be approximately {length} words long. "
+                        f"The language should be {language}. "
                         f"{'Include relevant emojis to make the content engaging.' if include_emoji else ''}"
                     )
 
@@ -75,7 +82,7 @@ def main():
                     response = openai.ChatCompletion.create(
                         model="gpt-3.5-turbo",
                         messages=[{"role": "user", "content": prompt}],
-                        max_tokens=length * 2,  # Adjust max_tokens based on word count
+                        max_tokens=length * 3,  # Adjust max_tokens for non-English languages
                         temperature=0.7  # Controls creativity (0.7 is a good balance)
                     )
 
