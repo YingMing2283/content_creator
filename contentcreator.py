@@ -1,5 +1,6 @@
 import streamlit as st
 import openai
+import pyperclip  # For clipboard functionality
 
 # Set up OpenAI API key
 openai.api_key = st.secrets["API_KEY"]
@@ -91,13 +92,26 @@ def main():
                     st.success("✅ Your content is ready!")
                     st.write(generated_content)
 
+                    # Create columns for buttons
+                    col1, col2 = st.columns(2)
+
                     # Download button for the generated content
-                    st.download_button(
-                        label="Download Content as Text",
-                        data=generated_content,
-                        file_name="generated_content.txt",
-                        mime="text/plain"
-                    )
+                    with col1:
+                        st.download_button(
+                            label="Download Content as Text",
+                            data=generated_content,
+                            file_name="generated_content.txt",
+                            mime="text/plain"
+                        )
+
+                    # Copy to clipboard button
+                    with col2:
+                        if st.button("Copy Text"):
+                            try:
+                                pyperclip.copy(generated_content)
+                                st.success("Text copied to clipboard! 📋")
+                            except Exception as e:
+                                st.error(f"Failed to copy text to clipboard: {e}")
 
                 except Exception as e:
                     st.error(f"An error occurred while generating content: {e}")
