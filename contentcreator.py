@@ -1,7 +1,5 @@
 import streamlit as st
 import openai
-import pyperclip  # For clipboard functionality
-import requests  # For downloading the generated image
 
 # Set up OpenAI API key
 openai.api_key = st.secrets["API_KEY"]
@@ -9,17 +7,17 @@ openai.api_key = st.secrets["API_KEY"]
 # Streamlit app layout
 def main():
     # Title and description
-    st.title("🎨 Creatify - Smart AI Content Generator")
+    st.title("🎨 AI Creative Content Bot")
     st.markdown("""
-    Welcome to the **Creatify**! Your Smart AI Content Generator. This tool helps you generate creative marketing content for various fields. 
+    Welcome to the **AI Creative Content Bot**! This tool helps you generate creative marketing content for various fields. 
     Simply select your preferences below, provide details about your product or content, and let the AI do the rest!
     """)
 
     # Sidebar for navigation or additional info
     st.sidebar.header("About")
     st.sidebar.markdown("""
-    💡 This app effortlessly generates creative, tailored marketing content in seconds. 
-    Simply choose your field, tone, length, language, and even emoji preferences—watch your perfect content come to life! 🚀
+    This app uses OpenAI's GPT-3.5 Turbo to generate creative marketing content tailored to your needs. 
+    Choose the field, tone, length, language, and whether to include emojis, and get your content in seconds!
     """)
 
     # User inputs
@@ -80,7 +78,7 @@ def main():
                         f"{'Include relevant emojis to make the content engaging.' if include_emoji else ''}"
                     )
 
-                    # Call OpenAI API for text generation
+                    # Call OpenAI API
                     response = openai.ChatCompletion.create(
                         model="gpt-3.5-turbo",
                         messages=[{"role": "user", "content": prompt}],
@@ -93,56 +91,13 @@ def main():
                     st.success("✅ Your content is ready!")
                     st.write(generated_content)
 
-                    # Create columns for buttons
-                    col1, col2 = st.columns(2)
-
                     # Download button for the generated content
-                    with col1:
-                        st.download_button(
-                            label="Download Content as Text",
-                            data=generated_content,
-                            file_name="generated_content.txt",
-                            mime="text/plain"
-                        )
-
-                    # Copy to clipboard button
-                    with col2:
-                        if st.button("Copy Text"):
-                            try:
-                                pyperclip.copy(generated_content)
-                                st.success("Text copied to clipboard! 📋")
-                            except Exception as e:
-                                st.error(f"Failed to copy text to clipboard: {e}")
-
-                    # Generate an image based on the content
-                    st.header("🖼️ Generate Marketing Image")
-                    with st.spinner("Generating your marketing image... 🎨"):
-                        try:
-                            # Construct the image prompt
-                            image_prompt = (
-                                f"Create a marketing image for: {product_details}. "
-                                f"The field is {field}, and the tone is {tone}. "
-                                f"The image should be visually appealing and relevant to the content."
-                            )
-
-                            # Call OpenAI DALL·E API
-                            image_response = openai.Image.create(
-                                prompt=image_prompt,
-                                n=1,  # Number of images to generate
-                                size="1024x1024"  # Image size
-                            )
-
-                            # Get the image URL
-                            image_url = image_response['data'][0]['url']
-
-                            # Display the image
-                            st.image(image_url, caption="Generated Marketing Image", use_column_width=True)
-
-                            # Download button for the image
-                            st.markdown(f"[Download Image]({image_url})", unsafe_allow_html=True)
-
-                        except Exception as e:
-                            st.error(f"An error occurred while generating the image: {e}")
+                    st.download_button(
+                        label="Download Content as Text",
+                        data=generated_content,
+                        file_name="generated_content.txt",
+                        mime="text/plain"
+                    )
 
                 except Exception as e:
                     st.error(f"An error occurred while generating content: {e}")
