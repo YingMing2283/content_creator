@@ -12,12 +12,12 @@ def main():
     Welcome to the **Creatify**! Your Smart AI Content Generator. This tool helps you generate creative marketing content for various fields. 
     Simply select your preferences below, provide details about your product or content, and let the AI do the rest!
     """)
-
+    
     # Sidebar for navigation or additional info
     st.sidebar.header("About")
     st.sidebar.markdown("""
-    This app uses OpenAI's GPT-3.5 Turbo to generate creative marketing content tailored to your needs. 
-    Choose the field, tone, length, language, and whether to include emojis, and get your content in seconds!
+    💡 This app effortlessly generates creative, tailored marketing content in seconds. 
+    Simply choose your field, tone, length, language, and even emoji preferences—watch your perfect content come to life! 🚀
     """)
 
     # User inputs
