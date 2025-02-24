@@ -7,9 +7,9 @@ openai.api_key = st.secrets["API_KEY"]
 # Streamlit app layout
 def main():
     # Title and description
-    st.title("🎨 AI Creative Content Bot")
+    st.title("🎨 Creatify - Smart AI Content Generator")
     st.markdown("""
-    Welcome to the **AI Creative Content Bot**! This tool helps you generate creative marketing content for various fields. 
+    Welcome to the **Creatify**! Your Smart AI Content Generator. This tool helps you generate creative marketing content for various fields. 
     Simply select your preferences below, provide details about your product or content, and let the AI do the rest!
     """)
 
