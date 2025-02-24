@@ -8,17 +8,17 @@ openai.api_key = st.secrets["API_KEY"]
 # Streamlit app layout
 def main():
     # Title and description
-    st.title("🎨 AI Creative Content Bot")
+    st.title("🎨 Creatify - AI Creative Content Bot")
     st.markdown("""
-    Welcome to the **AI Creative Content Bot**! This tool helps you generate creative marketing content for various fields. 
+    Welcome to the **Creatify**! This tool helps you generate creative marketing content for various fields. 
     Simply select your preferences below, provide details about your product or content, and let the AI do the rest!
     """)
 
     # Sidebar for navigation or additional info
     st.sidebar.header("About")
     st.sidebar.markdown("""
-    This app uses OpenAI's GPT-3.5 Turbo to generate creative marketing content tailored to your needs. 
-    Choose the field, tone, length, language, and whether to include emojis, and get your content in seconds!
+    💡 This app effortlessly generates creative, tailored marketing content in seconds. 
+    Simply choose your field, tone, length, language, and even emoji preferences—watch your perfect content come to life! 🚀
     """)
 
     # User inputs
