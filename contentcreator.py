@@ -10,7 +10,7 @@ def main():
     st.title("🎨 AI Creative Content Bot")
     st.markdown("""
     Welcome to the **AI Creative Content Bot**! This tool helps you generate creative marketing content for various fields. 
-    Simply select your preferences below, and let the AI do the rest!
+    Simply select your preferences below, provide details about your product or content, and let the AI do the rest!
     """)
 
     # Sidebar for navigation or additional info
@@ -27,6 +27,13 @@ def main():
     field = st.selectbox(
         "Select Field",
         ["Education", "Healthcare", "Medical", "Food & Beverage", "Technology", "Fashion", "Travel", "Finance", "Real Estate"]
+    )
+
+    # Product/Content details input
+    product_details = st.text_area(
+        "Provide Product/Content Details",
+        placeholder="Describe your product or content. For example: 'A new online course for learning Python programming.'",
+        height=100
     )
 
     # Tone selection
@@ -49,35 +56,44 @@ def main():
 
     # Generate content button
     if st.button("Generate Content"):
-        with st.spinner("Generating your content... ✨"):
-            # Construct the prompt for OpenAI
-            prompt = (
-                f"Write a creative marketing content for the {field} field. "
-                f"The tone should be {tone}. "
-                f"The content should be approximately {length} words long. "
-                f"{'Include relevant emojis to make the content engaging.' if include_emoji else ''}"
-            )
+        # Validate inputs
+        if not product_details.strip():
+            st.error("Please provide product or content details.")
+        else:
+            with st.spinner("Generating your content... ✨"):
+                try:
+                    # Construct the prompt for OpenAI
+                    prompt = (
+                        f"Write a creative marketing content for the {field} field. "
+                        f"The product or content is: {product_details}. "
+                        f"The tone should be {tone}. "
+                        f"The content should be approximately {length} words long. "
+                        f"{'Include relevant emojis to make the content engaging.' if include_emoji else ''}"
+                    )
 
-            # Call OpenAI API
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=length * 2,  # Adjust max_tokens based on word count
-                temperature=0.7  # Controls creativity (0.7 is a good balance)
-            )
+                    # Call OpenAI API
+                    response = openai.ChatCompletion.create(
+                        model="gpt-3.5-turbo",
+                        messages=[{"role": "user", "content": prompt}],
+                        max_tokens=length * 2,  # Adjust max_tokens based on word count
+                        temperature=0.7  # Controls creativity (0.7 is a good balance)
+                    )
 
-            # Display generated content
-            generated_content = response.choices[0].message.content.strip()
-            st.success("✅ Your content is ready!")
-            st.write(generated_content)
+                    # Display generated content
+                    generated_content = response.choices[0].message.content.strip()
+                    st.success("✅ Your content is ready!")
+                    st.write(generated_content)
 
-            # Download button for the generated content
-            st.download_button(
-                label="Download Content as Text",
-                data=generated_content,
-                file_name="generated_content.txt",
-                mime="text/plain"
-            )
+                    # Download button for the generated content
+                    st.download_button(
+                        label="Download Content as Text",
+                        data=generated_content,
+                        file_name="generated_content.txt",
+                        mime="text/plain"
+                    )
+
+                except Exception as e:
+                    st.error(f"An error occurred while generating content: {e}")
 
 # Run the app
 if __name__ == "__main__":
